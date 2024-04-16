@@ -44,52 +44,6 @@ export default function Home() {
     allyoucaneat: "",
   });
 
-  // const [selectPlace, SetselectPlace] = useState("");
-  // const [cuisineType, SetcuisineType] = useState("");
-  // const SelectBtn = async (typeStr: string) => {
-  //   console.log("場所 : " + typeStr);
-  //   SetfilterData({ ...filterData, Place:'' });
-  //   SetselectPlace(typeStr);
-  //   if (typeStr == "") {
-  //     if (cuisineType == "") {
-  //       const responsData = await getMicrocms_Meal_Type(); //ISR
-  //       Setdatas(responsData.contents);
-  //     } else {
-  //       SendReq(`cuisineType[contains]${cuisineType}`);
-  //     }
-  //   } else {
-  //     let AddStr = "";
-  //     if (selectPlace != "") {
-  //     }
-  //     const filterStr = `place[contains]${typeStr}[and]cuisineType[contains]${cuisineType}`;
-
-  //     SendReq(filterStr);
-  //   }
-  //   //`place[contains]${place}`
-  // };
-
-  // const SelectCuisineType = async (cuisineType: string) => {
-  //   console.log("料理 : " + cuisineType);
-  //   SetcuisineType(cuisineType);
-
-  //   if (selectPlace == "") {
-  //     SendReq(`cuisineType[contains]${cuisineType}`);
-  //     return;
-  //   } else {
-  //     const filterStr = `place[contains]${selectPlace}[and]cuisineType[contains]${cuisineType}`;
-
-  //     SendReq(filterStr);
-  //   }
-
-  //   // if (cuisineType == "") {
-  //   //   const responsData = await getMicrocms_Meal_Type(); //ISR
-  //   //   Setdatas(responsData.contents);
-  //   // } else {
-  //   //   const responsData = await getMicrocms_Meal_Type_ByPlace(cuisineType); //ISR
-  //   //   Setdatas(responsData.contents);
-  //   // }
-  // };
-
   const filter = async (filterStr: string) => {
     console.log("filter");
     const key = filterStr.split(":")[0];
@@ -203,6 +157,9 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <hr />
+
         <div className="col-12 d-flex gap-2">
           料理 :
           {FilterAssemblyData().cuisine.map((data, index) => (
@@ -223,7 +180,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-
+        <hr />
         <div className="col-12 d-flex gap-2">
           種類 :
           {FilterAssemblyData().type.map((data, index) => (
@@ -244,7 +201,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-
+        <hr />
         <div className="col-12 d-flex gap-2">
           食べ放題 :
           {FilterAssemblyData().allyoucaneat.map((data, index) => (
@@ -266,37 +223,35 @@ export default function Home() {
           ))}
         </div>
       </div>
-
+      <hr />
       <div className="list-group">
         {datas &&
           datas.map((data, index) => (
             <div key={index} className="card mt-2 mb-2">
-              <div className="card-header">
-                <h3>
+              <div className="card-header d-flex justify-content-between">
+                <h5>
                   {" "}
                   {data.storename} - {data.place}
-                </h3>
+                </h5>
+
+                <small>{data.distance}m</small>
               </div>
               <div className="card-body">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">
+                  <h6 className="mb-1">
                     {data.cuisineType} / {data.type}
-                  </h5>
-                  <small>
-                    {" "}
-                    <a href={data.weblink} className="btn btn-info btn-sm">
-                      サイード
-                    </a>
-                  </small>
-                  <small>{data.distance}m</small>
+                  </h6>
+                  <small> </small>
+                  <a href={data.weblink} className="btn btn-info btn-sm">
+                    サイード
+                  </a>
                 </div>
-                <p className="mb-1">{data.address}</p>
+                <p className="mb-1"> アドレス : {data.address}</p>
 
                 <small></small>
                 <div className="d-flex w-100 justify-content-between">
                   <small>備考 : {data.remark}</small>
                   <small>TEL : {data.tel}</small>
-                  <small> </small>
                 </div>
               </div>
               <div className="card-footer text-muted">
