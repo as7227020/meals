@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+import "bootstrap/dist/css/bootstrap.css";
 
 const inter = Inter({ subsets: ["greek"] });
 

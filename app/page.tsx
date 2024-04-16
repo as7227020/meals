@@ -30,7 +30,7 @@ export default function Home() {
   useEffect(() => {
     Get_CMS_Announcement_Setting();
   }, []);
-  require("bootstrap/dist/js/bootstrap.bundle.js");
+
   return (
     <div className="container mx-auto p-6">
       <div className="row">
