@@ -9,6 +9,6 @@ type Microcms_Meal_Type = {
   address: string; //地址
   tel: string; //電話
   weblink: string; //網頁連結
-  DiplayFlag: boolean; //是否顯示
-  Tyoe: string; //種類
+  diplayFlag: boolean; //是否顯示
+  type: string; //種類
 };
