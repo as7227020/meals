@@ -56,10 +56,34 @@ export default function Home() {
                 {data.storename}
               </h2>
               <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
-                地址 : {data.address}
+                場所 : {data.place}
               </p>
+
+              <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
+                料理 : {data.cuisineType}
+              </p>
+
+              <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
+                種類 : {data.Tyoe}
+              </p>
+
               <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
                 距離 : {data.distance}
+              </p>
+
+              <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
+                食べ放題 : {data.allyoucaneat ? " O " : " X "}
+              </p>
+
+              <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
+                備考 : {data.remark}
+              </p>
+              <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
+                地址 : {data.address}
+              </p>
+
+              <p className="mx-auto mt-3 sm:mt-6 max-w-xl text-md sm:text-lg sm:leading-snug text-gray-600 dark:text-gray-300">
+                TEL : {data.tel}
               </p>
               <div className="mt-6 sm:mt-10 flex items-center justify-center gap-x-6">
                 <a

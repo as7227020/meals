@@ -10,4 +10,5 @@ type Microcms_Meal_Type = {
   tel: string;
   weblink: string;
   DiplayFlag: boolean;
+  Tyoe: string;
 };
