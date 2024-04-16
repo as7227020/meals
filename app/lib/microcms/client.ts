@@ -24,6 +24,24 @@ export const getMicrocms_Meal_Type = async () => {
 
   return restaurantData;
 };
+
+export const getMicrocms_Meal_Type_ByPlace = async (place: string) => {
+  const restaurantData = await client.getList<Microcms_Meal_Type>({
+    endpoint: "meals",
+    customRequestInit: {
+      cache: "no-store",
+      //  next:{//ISR
+      //   revalidate: 3600
+      // }
+    },
+    queries: {
+      orders: "distance",
+      filters: `place[contains]${place}`,
+    },
+  });
+
+  return restaurantData;
+};
 /*
 distance
 orders: "-createdAt",
