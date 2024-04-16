@@ -25,7 +25,7 @@ export const getMicrocms_Meal_Type = async () => {
   return restaurantData;
 };
 
-export const getMicrocms_Meal_Type_ByPlace = async (place: string) => {
+export const getMicrocms_Meal_Type_ByFilter = async (filterStr: string) => {
   const restaurantData = await client.getList<Microcms_Meal_Type>({
     endpoint: "meals",
     customRequestInit: {
@@ -36,7 +36,7 @@ export const getMicrocms_Meal_Type_ByPlace = async (place: string) => {
     },
     queries: {
       orders: "distance",
-      filters: `place[contains]${place}`,
+      filters: `${filterStr}`,
     },
   });
 
@@ -48,6 +48,8 @@ orders: "-createdAt",
 [or]
 place[contains]${"銀座"}
 allyoucaneat[equals]${true}
+filters=title[contains]特集[or]publishedAt[begins_with]2019-12
+title[contains]特集[and]publishedAt[begins_with]2019-12
        */
 
 // export const getCMS_GPS_Setting = async (contentId: string) => {
