@@ -7,23 +7,40 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import LoadingView from "./loadingView";
+import "./home.css";
 const FilterAssemblyData = () => {
   return {
     place: ["条件なし", "銀座", "新富町"],
-    cuisine: ["条件なし", "イタリア", "日本", "中華", "Bar"],
+    cuisine: [
+      "条件なし",
+      "イタリア",
+      "日本",
+      "中華",
+      "インド",
+      "フランス",
+      "Bar",
+      "その他",
+    ],
     type: [
       "条件なし",
       "イタリア",
-      "鉄板焼き",
+      "インド",
+      "フランス",
+      "すき焼き",
       "居酒屋",
-      "おでん",
-      "天ぷら",
       "寿司",
-      "ステーキ",
-      "本番北京ダック",
+      "牡蠣",
+      "焼鳥",
+      "おでん",
       "小籠包　餃子",
-      "四川料理",
+      "ステーキ",
       "鍋 薬膳 ",
+      "天ぷら",
+      "鉄板焼き",
+      "とんかつ",
+      "四川料理",
+      "Bar",
+      "その他",
     ],
     allyoucaneat: ["条件なし", "あり", "なし"],
   };
@@ -144,6 +161,16 @@ export default function Home() {
     SendReq(nowAssembly);
   };
 
+  const OnClickReset = () => {
+    SetfilterData({
+      place: "条件なし", //場所
+      cuisine: "条件なし", //料理
+      type: "条件なし", //種類
+      allyoucaneat: "条件なし",
+    });
+    SendReq("diplayFlag[equals]true");
+  };
+
   const SendReq = async (filterStr: string) => {
     console.log("送出搜索 : " + filterStr);
     const responsData = await getMicrocms_Meal_Type_ByFilter(filterStr); //ISR
@@ -158,6 +185,16 @@ export default function Home() {
 
   return (
     <div className="container">
+      <div className="row text-center mt-2 m-3 ">
+        <button
+          type="button"
+          className="btn"
+          style={{ border: "1px solid blue", fontWeight: "500" }}
+          onClick={OnClickReset}
+        >
+          リセット
+        </button>
+      </div>
       <div className="row text-center mt-2 ">
         <div className="col-12 d-flex justify-content-between">
           <div className="btn-group">
@@ -173,13 +210,13 @@ export default function Home() {
               {filterData.place}
             </button>
             <ul
-              className="dropdown-menu dropdown-menu-dark"
+              className="dropdown-menu selectdp"
               aria-labelledby="dropdownMenuButton"
             >
               {FilterAssemblyData().place.map((value, index) => (
                 <li key={index}>
                   <a
-                    className="dropdown-item"
+                    className="dropdown-item "
                     id={"place:" + value}
                     onClick={(e) => filter("place:" + value)}
                   >
@@ -204,7 +241,7 @@ export default function Home() {
             </button>
 
             <ul
-              className="dropdown-menu dropdown-menu-dark"
+              className="dropdown-menu selectdp"
               aria-labelledby="dropdownMenuButton"
             >
               {FilterAssemblyData().cuisine.map((value, index) => (
@@ -233,7 +270,7 @@ export default function Home() {
               {filterData.type}
             </button>
             <ul
-              className="dropdown-menu dropdown-menu-dark"
+              className="dropdown-menu selectdp"
               aria-labelledby="dropdownMenuButton"
             >
               {FilterAssemblyData().type.map((value, index) => (
@@ -264,7 +301,7 @@ export default function Home() {
               {filterData.allyoucaneat}
             </button>
             <ul
-              className="dropdown-menu dropdown-menu-dark"
+              className="dropdown-menu selectdp"
               aria-labelledby="dropdownMenuButton"
             >
               {FilterAssemblyData().allyoucaneat.map((value, index) => (
@@ -295,8 +332,7 @@ export default function Home() {
                   [{data.place}] {data.storename}
                   <div></div>
                 </h5>
-
-                <small>{data.distance}m</small>
+                <small> 家から {data.distance.toLocaleString()}m</small>
               </div>
               <div className="card-body">
                 <ul className="list-group list-group-flush">
