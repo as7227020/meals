@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Loading from "@/app/loading";
+import "./loadingView.css";
 type LoadingViewProps = {
   viewSwitch: boolean;
 };

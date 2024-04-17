@@ -27,13 +27,28 @@ export const getMicrocms_Meal_Type = async () => {
 
 type methodType = "GET" | "POST" | "PUT" | "DELETE";
 export const getCMS_Datas = (
+  nowpage: number,
   limit: number,
   endpoint: string,
   methodType: methodType,
   filtersStr: string
 ) =>
   fetch(
-    `https://${process.env.NEXT_PUBLIC_SERVIER_DOMAIN}.microcms.io/api/v1/${endpoint}?limit=${limit}&filters=${filtersStr}&orders=distance`,
+    `https://${process.env.NEXT_PUBLIC_SERVIER_DOMAIN}.microcms.io/api/v1/${endpoint}?offset=${nowpage}&limit=${limit}&filters=${filtersStr}&orders=distance`,
+    {
+      method: methodType,
+      headers: { "X-MICROCMS-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "" },
+    }
+  ).then((result) => result.json());
+
+export const getCMS_DatasCount = (
+  limit: number,
+  endpoint: string,
+  methodType: methodType,
+  filtersStr: string
+) =>
+  fetch(
+    `https://${process.env.NEXT_PUBLIC_SERVIER_DOMAIN}.microcms.io/api/v1/${endpoint}?`,
     {
       method: methodType,
       headers: { "X-MICROCMS-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "" },

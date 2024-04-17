@@ -15,3 +15,13 @@
     -webkit-text-stroke-width: 0.3px;
     -webkit-text-stroke-color: rgb(116, 41, 41);
 }
+
+.cardeffect
+{
+    box-shadow: 1px 2px 5px -2px #2c2c2c;
+    border: 2px solid gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+

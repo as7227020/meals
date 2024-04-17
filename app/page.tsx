@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import LoadingView from "./loadingView";
 import "./home.css";
 import Image from "next/image";
+import ScrollToTopBtn from "./ScrollToTopBtn";
 const FilterAssemblyData = () => {
   return {
     place: ["条件なし", "銀座", "新富町"],
@@ -47,7 +48,7 @@ const FilterAssemblyData = () => {
     allyoucaneat: ["条件なし", "あり", "なし"],
   };
 };
-
+const onePageCount: number = 8;
 type filterData = {
   place: string; //場所
   cuisine: string; //料理
@@ -57,7 +58,7 @@ type filterData = {
 export default function Home() {
   //拿取CMS 公告資料
   const Get_CMS_Announcement_Setting = async () => {
-    SendReq("diplayFlag[equals]true");
+    SendReq("diplayFlag[equals]true", 1);
   };
   const [filterData, SetfilterData] = useState<filterData>({
     place: "条件なし", //場所
@@ -67,7 +68,7 @@ export default function Home() {
   });
 
   const [datas, Setdatas] = useState<Microcms_Meal_Type[]>([]);
-  const [loadingViewController, SetloadingViewController] = useState(false);
+  const [loadingViewController, SetloadingViewController] = useState(true);
 
   const filter = async (filterStr: string) => {
     SetloadingViewController(true);
@@ -75,7 +76,7 @@ export default function Home() {
     const key = filterStr.split(":")[0];
     const value = filterStr.split(":")[1];
     //== "条件なし" ? "" : filterStr.split(":")[1];
-    console.log(key, value);
+    //console.log(key, value);
 
     let emptyData: filterData = filterData;
 
@@ -160,7 +161,7 @@ export default function Home() {
       nowAssembly += "diplayFlag[equals]true";
     }
 
-    SendReq(nowAssembly);
+    SendReq(nowAssembly, 1);
   };
 
   const GetDisanceStr = (dis: number): string => {
@@ -178,18 +179,56 @@ export default function Home() {
       type: "条件なし", //種類
       allyoucaneat: "条件なし",
     });
-    SendReq("diplayFlag[equals]true");
+    SendReq("diplayFlag[equals]true", 1);
   };
 
-  const SendReq = async (filterStr: string) => {
-    console.log("送出搜索 : " + filterStr);
+  //切換頁數
+  const ChangePage = (page: number) => {
+    scrollUp();
+    SetloadingViewController(true);
+    SendReq(sqlRecordStr, page);
+  };
+  const [maxPageCount, SetmaxPageCount] = useState(0);
+
+  //目前頁數
+  const [currPage, SetcurrPage] = useState(1);
+  const [sqlRecordStr, SetsqlRecordStr] = useState("");
+  const [pageData, SetpageData] = useState<number[]>([1]);
+  const SendReq = async (filterStr: string, page: number) => {
+    SetcurrPage(page);
+    //console.log("page");
+    // console.log(page);
+    //console.log("送出搜索 : " + filterStr);
     // const responsData = await getMicrocms_Meal_Type_ByFilter(filterStr); //ISR
-    const responsData = getCMS_Datas(100, "meals", "GET", filterStr);
+    SetsqlRecordStr(filterStr);
+    const responsData = getCMS_Datas(
+      onePageCount * (page - 1),
+      onePageCount,
+      "meals",
+      "GET",
+      filterStr
+    );
     responsData.then((data) => {
       Setdatas(data.contents);
-    });
+      const totalPageCount = Math.ceil(data.totalCount / onePageCount);
+      //console.log(data.contents);
+      SetmaxPageCount(totalPageCount);
 
-    SetloadingViewController(false);
+      var i: number;
+      let thePageData: number[] = [];
+      for (i = 0; i < totalPageCount; i++) {
+        thePageData.push(i + 1);
+      }
+      SetpageData(thePageData);
+
+      SetloadingViewController(false);
+    });
+  };
+  const scrollUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const [windowWidth, SetwindowWidth] = useState<number>(0);
@@ -202,7 +241,8 @@ export default function Home() {
   //https://drive.google.com/file/d/1HFv75WvguDLPwbwdM7PoA74XDLiUM4T6/view?usp=drive_link
   return (
     <div className="container">
-      <header className="title3header title3header-fixedStyle vh-30 text-center position-relative">
+      <ScrollToTopBtn />
+      <header className="vh-40 text-center position-relative">
         <div className="text-container position-relative d-flex flex-column justify-content-center align-items-center h-100">
           <Image
             src={
@@ -213,8 +253,9 @@ export default function Home() {
             style={{
               objectFit: "cover",
               objectPosition: "center",
+              borderRadius: "3px",
             }}
-            alt="1"
+            alt=" "
           ></Image>
         </div>
       </header>
@@ -377,7 +418,7 @@ export default function Home() {
         <LoadingView viewSwitch={loadingViewController} />
         {datas.length > 0 ? (
           datas.map((data, index) => (
-            <div key={index} className="card mt-2 mb-2">
+            <div key={index} className="card cardeffect">
               <div className="card-header d-flex w-100 justify-content-between">
                 <div
                   style={{
@@ -467,7 +508,10 @@ export default function Home() {
                   </li>
                 </ul>
               </div>
-              <div className="card-footer text-muted d-flex gap-2">
+              <div
+                className="card-footer d-flex gap-1"
+                style={{ justifyContent: "start", alignItems: "center" }}
+              >
                 <span
                   className={
                     data.allyoucaneat
@@ -476,10 +520,10 @@ export default function Home() {
                   }
                 >
                   食べ放題 : {data.allyoucaneat ? "あり" : "なし"}
-                </span>
+                </span>{" "}
                 <span className="badge bg-success rounded-pill">
                   料理：{data.cuisineType}
-                </span>
+                </span>{" "}
                 <span className="badge bg-warning rounded-pill text-dark">
                   種類：{data.type}
                 </span>
@@ -487,8 +531,70 @@ export default function Home() {
             </div>
           ))
         ) : (
-          <div className="text-center">条件に合うのは見つかりません。</div>
+          <div className="text-center">
+            {loadingViewController == false
+              ? "条件に合うのは見つかりません。"
+              : ""}
+          </div>
         )}
+      </div>
+      <div className="row">
+        <div
+          className="col-12"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "15px",
+          }}
+        >
+          <nav aria-label="Page navigation example">
+            <ul className="pagination">
+              <li className="page-item">
+                <a
+                  className="page-link"
+                  aria-label="Previous"
+                  onClick={() => {
+                    console.log(1);
+                    ChangePage(1);
+                  }}
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+
+              {pageData.map((num) => (
+                <li
+                  key={num}
+                  className={currPage == num ? "page-item active" : "page-item"}
+                >
+                  <a
+                    className="page-link"
+                    onClick={() => {
+                      console.log(num);
+                      ChangePage(num);
+                    }}
+                  >
+                    {num}
+                  </a>
+                </li>
+              ))}
+
+              <li className="page-item">
+                <a
+                  className="page-link"
+                  onClick={() => {
+                    console.log(maxPageCount);
+                    ChangePage(maxPageCount);
+                  }}
+                  aria-label="Next"
+                >
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
   );
