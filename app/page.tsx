@@ -574,7 +574,7 @@ export default function Home() {
         ) : (
           <div className="text-center mt-4">
             {loadingViewController == false
-              ? "条件に合うのは見つかりません。"
+              ? "条件に合う店が見つかりません。"
               : ""}
           </div>
         )}
