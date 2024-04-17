@@ -11,6 +11,8 @@ import LoadingView from "./loadingView";
 import "./home.css";
 import Image from "next/image";
 import ScrollToTopBtn from "./ScrollToTopBtn";
+import toast from "react-hot-toast";
+
 const FilterAssemblyData = () => {
   return {
     place: ["条件なし", "銀座", "新富町"],
@@ -58,7 +60,7 @@ type filterData = {
 export default function Home() {
   //拿取CMS 公告資料
   const Get_CMS_Announcement_Setting = async () => {
-    SendReq("diplayFlag[equals]true", 1);
+    SendReq("diplayFlag[equals]true", 1, true);
   };
   const [filterData, SetfilterData] = useState<filterData>({
     place: "条件なし", //場所
@@ -161,9 +163,10 @@ export default function Home() {
       nowAssembly += "diplayFlag[equals]true";
     }
 
-    SendReq(nowAssembly, 1);
+    SendReq(nowAssembly, 1, true);
   };
 
+  //公尺和公里轉換
   const GetDisanceStr = (dis: number): string => {
     if (dis >= 1000) {
       const d = dis / 1000;
@@ -179,7 +182,7 @@ export default function Home() {
       type: "条件なし", //種類
       allyoucaneat: "条件なし",
     });
-    SendReq("diplayFlag[equals]true", 1);
+    SendReq("diplayFlag[equals]true", 1, true);
   };
 
   //切換頁數
@@ -188,16 +191,27 @@ export default function Home() {
       return;
     }
     scrollUp();
+    //讀取顯示開啟
     SetloadingViewController(true);
-    SendReq(sqlRecordStr, page);
+    //送出語法 使用紀錄的
+    SendReq(sqlRecordStr, page, false);
   };
+
+  //目前最大頁數
   const [maxPageCount, SetmaxPageCount] = useState(0);
 
   //目前頁數
   const [currPage, SetcurrPage] = useState(1);
+  //紀錄上一部搜尋語法 切換用繼續使用
   const [sqlRecordStr, SetsqlRecordStr] = useState("");
+  //頁數的陣列資料 用來顯示頁數 map用
   const [pageData, SetpageData] = useState<number[]>([1]);
-  const SendReq = async (filterStr: string, page: number) => {
+
+  const SendReq = async (
+    filterStr: string,
+    page: number,
+    isShowCount: boolean
+  ) => {
     SetcurrPage(page);
     //console.log("page");
     // console.log(page);
@@ -216,6 +230,9 @@ export default function Home() {
       const totalPageCount = Math.ceil(data.totalCount / onePageCount);
       //console.log(data.contents);
       SetmaxPageCount(totalPageCount);
+      if (isShowCount == true) {
+        toast.success(data.totalCount + " 間が見つかりました。");
+      }
 
       var i: number;
       let thePageData: number[] = [];

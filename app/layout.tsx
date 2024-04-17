@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Noto_Sans_JP } from "next/font/google";
-
 const inter = Noto_Sans_JP({ subsets: ["cyrillic"], weight: ["400"] });
+import ToasterProvider from "./ToasterProvider";
 
 export const metadata: Metadata = {
   title: "食べゆき",
@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children} <ToasterProvider />
+      </body>
     </html>
   );
 }
