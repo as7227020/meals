@@ -161,6 +161,14 @@ export default function Home() {
     SendReq(nowAssembly);
   };
 
+  const GetDisanceStr = (dis: number): string => {
+    if (dis >= 1000) {
+      const d = dis / 1000;
+      return d.toLocaleString() + "km";
+    }
+    return dis.toLocaleString() + "m";
+  };
+
   const OnClickReset = () => {
     SetfilterData({
       place: "条件なし", //場所
@@ -189,7 +197,10 @@ export default function Home() {
         <button
           type="button"
           className="btn"
-          style={{ border: "1px solid blue", fontWeight: "500" }}
+          style={{
+            border: "1px solid pink",
+            fontWeight: "500",
+          }}
           onClick={OnClickReset}
         >
           リセット
@@ -197,22 +208,26 @@ export default function Home() {
       </div>
       <div className="row text-center mt-2 ">
         <div className="col-12 d-flex justify-content-between">
-          <div className="btn-group">
+          <div className="btn-group selectdp">
             <button
-              className="btn btn-secondary dropdown-toggle btn-sm "
+              className="btn  dropdown-toggle btn-sm dropdownfont"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h5 className="mt-3">場所</h5>
-              <hr />
-              {filterData.place}
+              <h5 className="mt-3 dropdownfont">場所</h5>
+              <hr
+                className="dropdownfont"
+                style={{
+                  border: "none",
+                  height: "2px",
+                  backgroundColor: "white",
+                }}
+              />
+              <div className="mt-3 dropdownfont"> {filterData.place}</div>
             </button>
-            <ul
-              className="dropdown-menu selectdp"
-              aria-labelledby="dropdownMenuButton"
-            >
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {FilterAssemblyData().place.map((value, index) => (
                 <li key={index}>
                   <a
@@ -226,28 +241,30 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="btn-group">
+          <div className="btn-group selectdp">
             <button
-              className="btn btn-success dropdown-toggle btn-sm"
+              className="btn  dropdown-toggle btn-sm dropdownfont"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h5 className="mt-3">料理</h5>
-
-              <hr />
-              {filterData.cuisine}
+              <h5 className="mt-3 dropdownfont">料理</h5>
+              <hr
+                className="dropdownfont"
+                style={{
+                  border: "none",
+                  height: "2px",
+                  backgroundColor: "white",
+                }}
+              />
+              <div className="mt-3 dropdownfont"> {filterData.cuisine}</div>
             </button>
-
-            <ul
-              className="dropdown-menu selectdp"
-              aria-labelledby="dropdownMenuButton"
-            >
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {FilterAssemblyData().cuisine.map((value, index) => (
                 <li key={index}>
                   <a
-                    className="dropdown-item"
+                    className="dropdown-item "
                     id={"cuisine:" + value}
                     onClick={(e) => filter("cuisine:" + value)}
                   >
@@ -257,26 +274,31 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <div className="btn-group">
+
+          <div className="btn-group selectdp">
             <button
-              className="btn btn-warning dropdown-toggle btn-sm"
+              className="btn  dropdown-toggle btn-sm dropdownfont"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h5 className="mt-3">種類</h5>
-              <hr />
-              {filterData.type}
+              <h5 className="mt-3 dropdownfont">種類</h5>
+              <hr
+                className="dropdownfont"
+                style={{
+                  border: "none",
+                  height: "2px",
+                  backgroundColor: "white",
+                }}
+              />
+              <div className="mt-3 dropdownfont"> {filterData.type}</div>
             </button>
-            <ul
-              className="dropdown-menu selectdp"
-              aria-labelledby="dropdownMenuButton"
-            >
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {FilterAssemblyData().type.map((value, index) => (
                 <li key={index}>
                   <a
-                    className="dropdown-item"
+                    className="dropdown-item "
                     id={"type:" + value}
                     onClick={(e) => filter("type:" + value)}
                   >
@@ -287,30 +309,35 @@ export default function Home() {
             </ul>
           </div>
 
-          <div className="btn-group">
+          <div className="btn-group selectdp">
             <button
-              className="btn btn-secondary dropdown-toggle btn-sm"
+              className="btn  dropdown-toggle btn-sm dropdownfont"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <h5 className="mt-3">食べ放題</h5>
-
-              <hr />
-              {filterData.allyoucaneat}
+              <h5 className="mt-3 dropdownfont">食べ放題</h5>
+              <hr
+                className="dropdownfont"
+                style={{
+                  border: "none",
+                  height: "2px",
+                  backgroundColor: "white",
+                }}
+              />
+              <div className="mt-3 dropdownfont">
+                {" "}
+                {filterData.allyoucaneat}
+              </div>
             </button>
-            <ul
-              className="dropdown-menu selectdp"
-              aria-labelledby="dropdownMenuButton"
-            >
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {FilterAssemblyData().allyoucaneat.map((value, index) => (
                 <li key={index}>
                   <a
-                    className="dropdown-item"
+                    className="dropdown-item "
                     id={"allyoucaneat:" + value}
                     onClick={(e) => filter("allyoucaneat:" + value)}
-                    href="#"
                   >
                     {value}
                   </a>
@@ -326,13 +353,27 @@ export default function Home() {
         {datas.length > 0 ? (
           datas.map((data, index) => (
             <div key={index} className="card mt-2 mb-2">
-              <div className="card-header d-flex justify-content-between">
-                <h5>
-                  {" "}
+              <div className="card-header d-flex w-100 justify-content-between">
+                <div
+                  style={{
+                    justifyContent: "flex-start",
+                    alignContent: "end",
+                    fontSize: "1.2rem",
+                    fontWeight: "600",
+                  }}
+                >
                   [{data.place}] {data.storename}
-                  <div></div>
-                </h5>
-                <small> 家から {data.distance.toLocaleString()}m</small>
+                </div>
+                <div
+                  style={{
+                    alignContent: "center",
+                    fontSize: "0.8rem",
+                    fontWeight: "400",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  家から{GetDisanceStr(data.distance)}
+                </div>
               </div>
               <div className="card-body">
                 <ul className="list-group list-group-flush">

@@ -1,14 +1,17 @@
 .selectdp{
     background-color: hotpink;
-    border: 1px solid rgb(245, 126, 195);
-    box-shadow: 4px 4px 10px -3px #505050;
+    box-shadow: 2px 4px 10px -3px #e66e6e;
+    font: bold;
 }
 
-.selectdp :hover{
-    background-color: rgb(196, 31, 108);
-    border-radius: 10px;
-    color: rgb(214, 201, 175);
-    transform: scale(0.95);
-    font-weight: 700;
-}
 
+
+
+
+
+.dropdownfont{
+    font-weight: 600;
+    color: white;
+    -webkit-text-stroke-width: 0.3px;
+    -webkit-text-stroke-color: rgb(116, 41, 41);
+}
