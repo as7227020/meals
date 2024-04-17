@@ -1,5 +1,6 @@
 "use client";
 import {
+  getCMS_Datas,
   getMicrocms_Meal_Type,
   getMicrocms_Meal_Type_ByFilter,
 } from "./lib/microcms/client";
@@ -8,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import LoadingView from "./loadingView";
 import "./home.css";
+import Image from "next/image";
 const FilterAssemblyData = () => {
   return {
     place: ["条件なし", "銀座", "新富町"],
@@ -30,7 +32,7 @@ const FilterAssemblyData = () => {
       "居酒屋",
       "寿司",
       "牡蠣",
-      "焼鳥",
+      "焼鳥 ",
       "おでん",
       "小籠包　餃子",
       "ステーキ",
@@ -181,18 +183,41 @@ export default function Home() {
 
   const SendReq = async (filterStr: string) => {
     console.log("送出搜索 : " + filterStr);
-    const responsData = await getMicrocms_Meal_Type_ByFilter(filterStr); //ISR
-    Setdatas(responsData.contents);
+    // const responsData = await getMicrocms_Meal_Type_ByFilter(filterStr); //ISR
+    const responsData = getCMS_Datas(100, "meals", "GET", filterStr);
+    responsData.then((data) => {
+      Setdatas(data.contents);
+    });
+
     SetloadingViewController(false);
   };
 
+  const [windowWidth, SetwindowWidth] = useState<number>(0);
   useEffect(() => {
     Get_CMS_Announcement_Setting();
     require("bootstrap/dist/js/bootstrap.bundle.js");
+    const w = window.innerWidth;
+    SetwindowWidth(Number(w));
   }, []);
-
+  //https://drive.google.com/file/d/1HFv75WvguDLPwbwdM7PoA74XDLiUM4T6/view?usp=drive_link
   return (
     <div className="container">
+      <header className="title3header title3header-fixedStyle vh-30 text-center position-relative">
+        <div className="text-container position-relative d-flex flex-column justify-content-center align-items-center h-100">
+          <Image
+            src={
+              "https://drive.google.com/thumbnail?id=1HFv75WvguDLPwbwdM7PoA74XDLiUM4T6&sz=w640"
+            }
+            width={windowWidth * 0.9}
+            height={150}
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            alt="1"
+          ></Image>
+        </div>
+      </header>
       <div className="row text-center mt-2 m-3 ">
         <button
           type="button"
@@ -378,13 +403,46 @@ export default function Home() {
               <div className="card-body">
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
-                    {" "}
-                    <p className="mb-1"> アドレス : {data.address}</p>
+                    <p className="mb-1">
+                      {" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <g
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                        >
+                          <path d="M6 8.107C6 4.734 8.686 2 12 2s6 2.734 6 6.107c0 3.347-1.915 7.252-4.903 8.649a2.587 2.587 0 0 1-2.194 0C7.915 15.359 6 11.454 6 8.107M12 10a2 2 0 1 0 0-4a2 2 0 0 0 0 4" />
+                          <path
+                            d="M3.627 14.534a.75.75 0 0 1-.122 1.054c-.573.454-.755.855-.755 1.162c0 .243.11.538.44.88c.334.345.856.695 1.566 1.017c1.254.569 2.988 1 4.994 1.187v-.459a.75.75 0 0 1 1.244-.564l1.5 1.312a.75.75 0 0 1 0 1.129l-1.5 1.313A.75.75 0 0 1 9.75 22v-.66c-2.185-.191-4.14-.659-5.614-1.327c-.814-.369-1.515-.815-2.024-1.34c-.511-.53-.862-1.179-.862-1.923c0-.95.567-1.738 1.324-2.338a.75.75 0 0 1 1.053.122m16.746 0a.75.75 0 0 1 1.053-.122c.757.6 1.324 1.388 1.324 2.338c0 1.378-1.168 2.41-2.547 3.101c-1.441.723-3.412 1.234-5.627 1.459a.75.75 0 0 1-.152-1.493c2.098-.212 3.877-.69 5.107-1.307c1.294-.648 1.719-1.303 1.719-1.76c0-.307-.182-.708-.755-1.162a.75.75 0 0 1-.122-1.054"
+                            opacity=".5"
+                          />
+                        </g>
+                      </svg>{" "}
+                      アドレス : {data.address}
+                    </p>
                   </li>
                   <li className="list-group-item">
                     {" "}
                     <div className="d-flex w-100 justify-content-between">
-                      <small>TEL : {data.tel}</small>
+                      <small>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608a17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42a18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"
+                          />
+                        </svg>
+                        TEL : {data.tel}
+                      </small>
                       <a href={data.weblink} className="btn btn-info btn-sm">
                         サイード
                       </a>
@@ -392,7 +450,20 @@ export default function Home() {
                   </li>
                   <li className="list-group-item">
                     {" "}
-                    <small>備考 : {data.remark}</small>
+                    <small>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h4.2q.325-.9 1.088-1.45T12 1t1.713.55T14.8 3H19q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zm7-14.75q.325 0 .538-.213t.212-.537t-.213-.537T12 2.75t-.537.213t-.213.537t.213.538t.537.212M5 19V5zm2.5-2h1.2q.2 0 .388-.088T9.4 16.7l5.7-5.65l-2.15-2.15l-5.65 5.65q-.15.15-.225.337T7 15.276V16.5q0 .2.15.35t.35.15m8.3-6.65l1.05-1.1Q17 9.1 17 8.9t-.15-.35l-1.4-1.4Q15.3 7 15.1 7t-.35.15l-1.1 1.05z"
+                        />
+                      </svg>
+                      備考 : {data.remark}
+                    </small>
                   </li>
                 </ul>
               </div>

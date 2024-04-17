@@ -25,6 +25,21 @@ export const getMicrocms_Meal_Type = async () => {
   return restaurantData;
 };
 
+type methodType = "GET" | "POST" | "PUT" | "DELETE";
+export const getCMS_Datas = (
+  limit: number,
+  endpoint: string,
+  methodType: methodType,
+  filtersStr: string
+) =>
+  fetch(
+    `https://${process.env.NEXT_PUBLIC_SERVIER_DOMAIN}.microcms.io/api/v1/${endpoint}?limit=${limit}&filters=${filtersStr}`,
+    {
+      method: methodType,
+      headers: { "X-MICROCMS-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "" },
+    }
+  ).then((result) => result.json());
+
 export const getMicrocms_Meal_Type_ByFilter = async (filterStr: string) => {
   const restaurantData = await client.getList<Microcms_Meal_Type>({
     endpoint: "meals",
