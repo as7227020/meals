@@ -38,8 +38,7 @@ type filterData = {
 export default function Home() {
   //拿取CMS 公告資料
   const Get_CMS_Announcement_Setting = async () => {
-    const responsData = await getMicrocms_Meal_Type(); //ISR
-    Setdatas(responsData.contents);
+    SendReq("diplayFlag[equals]true");
   };
   const [filterData, SetfilterData] = useState<filterData>({
     place: "条件なし", //場所
@@ -103,11 +102,9 @@ export default function Home() {
         break;
       }
     }
-    console.log("SetfilterData:");
-    console.log(emptyData);
+
     SetfilterData(emptyData);
 
-    console.log(emptyData);
     let count = 0;
     let nowAssembly: string = "";
     if (emptyData.place != "条件なし") {
@@ -138,14 +135,16 @@ export default function Home() {
       }`;
       count += 1;
     }
+    if (count >= 1) {
+      nowAssembly += "[and]diplayFlag[equals]true";
+    } else {
+      nowAssembly += "diplayFlag[equals]true";
+    }
 
     SendReq(nowAssembly);
   };
 
   const SendReq = async (filterStr: string) => {
-    console.log("filterData");
-    console.log(filterData);
-
     console.log("送出搜索 : " + filterStr);
     const responsData = await getMicrocms_Meal_Type_ByFilter(filterStr); //ISR
     Setdatas(responsData.contents);
