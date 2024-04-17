@@ -33,7 +33,7 @@ export const getCMS_Datas = (
   filtersStr: string
 ) =>
   fetch(
-    `https://${process.env.NEXT_PUBLIC_SERVIER_DOMAIN}.microcms.io/api/v1/${endpoint}?limit=${limit}&filters=${filtersStr}`,
+    `https://${process.env.NEXT_PUBLIC_SERVIER_DOMAIN}.microcms.io/api/v1/${endpoint}?limit=${limit}&filters=${filtersStr}&orders=distance`,
     {
       method: methodType,
       headers: { "X-MICROCMS-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "" },
