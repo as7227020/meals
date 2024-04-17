@@ -231,7 +231,7 @@ export default function Home() {
       //console.log(data.contents);
       SetmaxPageCount(totalPageCount);
       if (isShowCount == true) {
-        toast.success(data.totalCount + " 間が見つかりました。");
+        toast.success(data.totalCount + " 軒が見つかりました。");
       }
 
       var i: number;
