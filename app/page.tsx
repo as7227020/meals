@@ -72,7 +72,7 @@ export default function Home() {
 
   const filter = async (filterStr: string) => {
     SetloadingViewController(true);
-    console.log("filter");
+    //console.log("filter");
     const key = filterStr.split(":")[0];
     const value = filterStr.split(":")[1];
     //== "条件なし" ? "" : filterStr.split(":")[1];
@@ -95,7 +95,7 @@ export default function Home() {
         } else {
         }
         emptyData.cuisine = value;
-        console.log("料理:" + value);
+        // console.log("料理:" + value);
         break;
       }
       case "type": {
@@ -104,7 +104,7 @@ export default function Home() {
         } else {
         }
         emptyData.type = value;
-        console.log("種類:" + value);
+        //console.log("種類:" + value);
         break;
       }
 
@@ -114,7 +114,7 @@ export default function Home() {
         } else {
         }
         emptyData.allyoucaneat = value;
-        console.log("吃到飽:" + value);
+        //console.log("吃到飽:" + value);
         break;
       }
 
@@ -184,6 +184,9 @@ export default function Home() {
 
   //切換頁數
   const ChangePage = (page: number) => {
+    if (currPage == page) {
+      return;
+    }
     scrollUp();
     SetloadingViewController(true);
     SendReq(sqlRecordStr, page);
@@ -226,7 +229,7 @@ export default function Home() {
   };
   const scrollUp = () => {
     window.scrollTo({
-      top: 0,
+      top: 340,
       behavior: "smooth",
     });
   };
@@ -448,8 +451,8 @@ export default function Home() {
                       {" "}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                       >
                         <g
@@ -463,8 +466,8 @@ export default function Home() {
                             opacity=".5"
                           />
                         </g>
-                      </svg>{" "}
-                      アドレス : {data.address}
+                      </svg>
+                      　{data.address}
                     </p>
                   </li>
                   <li className="list-group-item">
@@ -473,8 +476,8 @@ export default function Home() {
                       <small>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
+                          width="18"
+                          height="18"
                           viewBox="0 0 16 16"
                         >
                           <path
@@ -482,28 +485,49 @@ export default function Home() {
                             d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608a17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42a18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"
                           />
                         </svg>
-                        TEL : {data.tel}
+                        　{data.tel}
                       </small>
                       <a href={data.weblink} className="btn btn-info btn-sm">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          viewBox="5 20 512 512"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0m0 64c35.4 0 64 28.6 64 64s-28.6 64-64 64s-64-28.6-64-64s28.6-64 64-64m85.3 384H170.7v-21.3H192V256h-21.3v-21.3H320v192h21.3z"
+                          />
+                        </svg>
                         サイード
                       </a>
                     </div>
                   </li>
-                  <li className="list-group-item">
-                    {" "}
-                    <small>
+                  <li className="list-group-item d-flex align-items-center">
+                    <small className="d-flex mt-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
+                        style={{ minHeight: "24px", minWidth: "24px" }}
                       >
                         <path
                           fill="currentColor"
                           d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h4.2q.325-.9 1.088-1.45T12 1t1.713.55T14.8 3H19q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zm7-14.75q.325 0 .538-.213t.212-.537t-.213-.537T12 2.75t-.537.213t-.213.537t.213.538t.537.212M5 19V5zm2.5-2h1.2q.2 0 .388-.088T9.4 16.7l5.7-5.65l-2.15-2.15l-5.65 5.65q-.15.15-.225.337T7 15.276V16.5q0 .2.15.35t.35.15m8.3-6.65l1.05-1.1Q17 9.1 17 8.9t-.15-.35l-1.4-1.4Q15.3 7 15.1 7t-.35.15l-1.1 1.05z"
                         />
                       </svg>
-                      備考 : {data.remark}
+                      <div
+                        style={{
+                          backgroundColor: " #eeeeee",
+                          border: "1px solid #7a7a7a",
+                          borderRadius: "6px",
+                          color: "#000",
+                          marginLeft: "5px",
+                        }}
+                      >
+                        　{data.remark}　
+                      </div>
                     </small>
                   </li>
                 </ul>
@@ -531,71 +555,84 @@ export default function Home() {
             </div>
           ))
         ) : (
-          <div className="text-center">
+          <div className="text-center mt-4">
             {loadingViewController == false
               ? "条件に合うのは見つかりません。"
               : ""}
           </div>
         )}
       </div>
-      <div className="row">
-        <div
-          className="col-12"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: "15px",
-          }}
-        >
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li className="page-item">
-                <a
-                  className="page-link"
-                  aria-label="Previous"
-                  onClick={() => {
-                    console.log(1);
-                    ChangePage(1);
-                  }}
-                >
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
 
-              {pageData.map((num) => (
-                <li
-                  key={num}
-                  className={currPage == num ? "page-item active" : "page-item"}
-                >
+      {maxPageCount > 1 ? (
+        <div className="row">
+          <div
+            className="col-12"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "15px",
+            }}
+          >
+            <nav
+              aria-label="Page navigation "
+              style={{
+                position: "fixed",
+                zIndex: "15",
+                bottom: "-10px",
+                right: "30%",
+                opacity: "85%",
+              }}
+            >
+              <ul className="pagination pagination-sm">
+                <li className="page-item">
+                  <a
+                    className="page-link"
+                    aria-label="Previous"
+                    onClick={() => {
+                      ChangePage(1);
+                    }}
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+
+                {pageData.map((num) => (
+                  <li
+                    key={num}
+                    className={
+                      currPage == num ? "page-item active" : "page-item"
+                    }
+                  >
+                    <a
+                      className="page-link"
+                      onClick={() => {
+                        ChangePage(num);
+                      }}
+                    >
+                      {num}
+                    </a>
+                  </li>
+                ))}
+
+                <li className="page-item">
                   <a
                     className="page-link"
                     onClick={() => {
-                      console.log(num);
-                      ChangePage(num);
+                      ChangePage(maxPageCount);
                     }}
+                    aria-label="Next"
                   >
-                    {num}
+                    <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
-              ))}
-
-              <li className="page-item">
-                <a
-                  className="page-link"
-                  onClick={() => {
-                    console.log(maxPageCount);
-                    ChangePage(maxPageCount);
-                  }}
-                  aria-label="Next"
-                >
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

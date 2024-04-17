@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 
-const inter = Inter({ subsets: ["greek"] });
+const inter = Noto_Sans_JP({ subsets: ["cyrillic"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "食べゆき",
