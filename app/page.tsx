@@ -292,7 +292,8 @@ export default function Home() {
           className="btn"
           style={{
             border: "1px solid pink",
-            fontWeight: "500",
+            fontWeight: "600",
+            boxShadow: "rgba(241, 174, 209, 0.35) 0px -2px 1px 1px inset",
           }}
           onClick={OnClickReset}
         >
