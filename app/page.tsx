@@ -269,12 +269,8 @@ export default function Home() {
               "https://drive.google.com/thumbnail?id=1HFv75WvguDLPwbwdM7PoA74XDLiUM4T6&sz=w640"
             }
             width={windowWidth * 0.9}
+            className="topImage"
             height={150}
-            style={{
-              objectFit: "cover",
-              objectPosition: "center",
-              borderRadius: "3px",
-            }}
             alt=" "
           ></Image>
         </div>
@@ -317,7 +313,7 @@ export default function Home() {
               {FilterAssemblyData().place.map((value, index) => (
                 <li key={index}>
                   <a
-                    className="dropdown-item "
+                    className="dropdown-item"
                     id={"place:" + value}
                     onClick={(e) => filter("place:" + value)}
                   >
@@ -609,6 +605,7 @@ export default function Home() {
                     onClick={() => {
                       ChangePage(1);
                     }}
+                    style={{ cursor: "pointer" }}
                   >
                     <span aria-hidden="true">&laquo;</span>
                   </a>
@@ -623,6 +620,7 @@ export default function Home() {
                   >
                     <a
                       className="page-link"
+                      style={{ cursor: "pointer" }}
                       onClick={() => {
                         ChangePage(num);
                       }}
@@ -639,6 +637,7 @@ export default function Home() {
                       ChangePage(maxPageCount);
                     }}
                     aria-label="Next"
+                    style={{ cursor: "pointer" }}
                   >
                     <span aria-hidden="true">&raquo;</span>
                   </a>

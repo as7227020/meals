@@ -6,8 +6,13 @@
 
 
 
-
-
+.topImage{
+object-fit: cover;
+object-position: center;
+border-radius: 3px;
+border: 3px solid rgb(212, 212, 255);
+box-shadow: 1px 2px 5px -2px #292929;
+}
 
 .dropdownfont{
     font-weight: 600;
@@ -20,4 +25,8 @@
     border: 2px solid gray;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.dropdown-item{
+    cursor: pointer;
 }
