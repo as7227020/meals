@@ -61,13 +61,15 @@ type filterData = {
   place: string; //場所
   cuisine: string; //料理
   type: string; //種類
-  allyoucaneat: string;
+  allyoucaneat: string; //吃到飽
 };
 export default function Home() {
   //拿取CMS 公告資料
   const Get_CMS_Announcement_Setting = async () => {
     SendReq("diplayFlag[equals]true", 1, true);
   };
+
+  //搜尋的關鍵字&資料
   const [filterData, SetfilterData] = useState<filterData>({
     place: "条件なし", //場所
     cuisine: "条件なし", //料理
@@ -75,9 +77,13 @@ export default function Home() {
     allyoucaneat: "条件なし",
   });
 
+  //餐廳資料陣列
   const [datas, Setdatas] = useState<Microcms_Meal_Type[]>([]);
+
+  //讀取進度轉圈UI
   const [loadingViewController, SetloadingViewController] = useState(true);
 
+  //搜尋條件選擇
   const filter = async (filterStr: string) => {
     SetloadingViewController(true);
     //console.log("filter");
@@ -86,6 +92,7 @@ export default function Home() {
     //== "条件なし" ? "" : filterStr.split(":")[1];
     //console.log(key, value);
 
+    //搜尋資料
     let emptyData: filterData = filterData;
 
     switch (key) {
@@ -131,8 +138,10 @@ export default function Home() {
       }
     }
 
+    //將搜尋資料儲存一次
     SetfilterData(emptyData);
 
+    //使用string加的方式來創建搜尋語句
     let count = 0;
     let nowAssembly: string = "";
     if (emptyData.place != "条件なし") {
@@ -176,11 +185,12 @@ export default function Home() {
   const GetDisanceStr = (dis: number): string => {
     if (dis >= 1000) {
       const d = dis / 1000;
-      return d.toLocaleString() + "km";
+      return d.toLocaleString() + "km"; //轉成1.2km
     }
-    return dis.toLocaleString() + "m";
+    return dis.toLocaleString() + "m"; //轉成800m
   };
 
+  //搜尋條件重置按鈕
   const OnClickReset = () => {
     SetfilterData({
       place: "条件なし", //場所
@@ -196,9 +206,13 @@ export default function Home() {
     if (currPage == page) {
       return;
     }
+
+    //畫面位置移到該位置
     scrollUp();
+
     //讀取顯示開啟
     SetloadingViewController(true);
+
     //送出語法 使用紀錄的
     SendReq(sqlRecordStr, page, false);
   };
@@ -208,48 +222,70 @@ export default function Home() {
 
   //目前頁數
   const [currPage, SetcurrPage] = useState(1);
+
   //紀錄上一部搜尋語法 切換用繼續使用
   const [sqlRecordStr, SetsqlRecordStr] = useState("");
+
   //頁數的陣列資料 用來顯示頁數 map用
   const [pageData, SetpageData] = useState<number[]>([1]);
 
+  //送出搜尋
   const SendReq = async (
-    filterStr: string,
-    page: number,
-    isShowCount: boolean
+    filterStr: string, //搜尋語句
+    page: number, //頁數
+    isShowCount: boolean //是否顯示搜尋到的資料數量提示
   ) => {
+    //設定目前切換的頁面數
     SetcurrPage(page);
+
     //console.log("page");
     // console.log(page);
     //console.log("送出搜索 : " + filterStr);
     // const responsData = await getMicrocms_Meal_Type_ByFilter(filterStr); //ISR
+
+    //設定搜尋語句的紀錄
     SetsqlRecordStr(filterStr);
+
+    //開始請求資料
     const responsData = getCMS_Datas(
-      onePageCount * (page - 1),
-      onePageCount,
-      "meals",
+      onePageCount * (page - 1), //目前資料的起始位置 Ex.5為 從5開始往後搜尋 (下面參數往下繼續)
+      onePageCount, //到這個比數 Ex.10 的話 上面是5 也就是 (5) ~ 10+(5) = 5 ~ 15個資料
+      "meals", //CMS的endPoint
       "GET",
-      filterStr
+      filterStr //搜尋語句
     );
     responsData.then((data) => {
+      //設定搜尋到的餐廳資料
       Setdatas(data.contents);
+
+      //計算最大數量(無條件進位)
       const totalPageCount = Math.ceil(data.totalCount / onePageCount);
       //console.log(data.contents);
+
+      //設定搜尋到的最大數量 , 不管上方如何搜尋 依舊會返回該table的最大數量 , 主要運算要顯示幾頁到幾頁
       SetmaxPageCount(totalPageCount);
+
+      //顯示提示UI
       if (isShowCount == true) {
         toast.success(data.totalCount + " 軒が見つかりました。");
       }
 
+      //設定幾頁到幾頁的陣列 才好map
       var i: number;
       let thePageData: number[] = [];
       for (i = 0; i < totalPageCount; i++) {
+        // 1開始 ~ ...totalPageCount
         thePageData.push(i + 1);
       }
+      //存進頁數顯示資料
       SetpageData(thePageData);
 
+      //關閉讀取顯示UI
       SetloadingViewController(false);
     });
   };
+
+  //往 top: 340位置移動
   const scrollUp = () => {
     window.scrollTo({
       top: 340,
@@ -257,19 +293,28 @@ export default function Home() {
     });
   };
 
+  //複製連結
   const copylink = (link: string) => {
     navigator.clipboard.writeText(link);
     toast.success("リンクをコピーしました。");
   };
 
+  //螢幕寬度資料 用來顯示圖片的寬度
   const [windowWidth, SetwindowWidth] = useState<number>(0);
+
   useEffect(() => {
+    //一開始讀取餐廳資料
     Get_CMS_Announcement_Setting();
+
+    //bootstrap的UI用
     require("bootstrap/dist/js/bootstrap.bundle.js");
+
+    //取得螢幕寬度 用來顯示圖片的寬
     const w = window.innerWidth;
+    //設定螢幕寬度
     SetwindowWidth(Number(w));
   }, []);
-  //https://drive.google.com/file/d/1HFv75WvguDLPwbwdM7PoA74XDLiUM4T6/view?usp=drive_link
+
   return (
     <div className="container">
       <ScrollToTopBtn />
