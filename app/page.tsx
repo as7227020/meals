@@ -331,6 +331,22 @@ export default function Home() {
           ></Image>
         </div>
       </header>
+      <div className="text-container position-relative justify-content-center">
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6194101006796140"
+          crossOrigin="anonymous"
+        ></script>
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="fluid"
+          data-ad-layout-key="-6t+ed+2i-1n-4w"
+          data-ad-client="ca-pub-6194101006796140"
+          data-ad-slot="2023638853"
+        ></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
       <div className="row text-center mt-2 m-3 ">
         <button
           type="button"
