@@ -39,6 +39,11 @@ export default function RootLayout({
           type="image/<generated>"
           sizes="<generated>"
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6194101006796140"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body className={inter.className}>
         {children} <ToasterProvider />
