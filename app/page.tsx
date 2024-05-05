@@ -315,7 +315,17 @@ export default function Home() {
     //設定螢幕寬度
     SetwindowWidth(Number(w));
   }, []);
+  /*
 
+ <div className="text-container position-relative justify-content-center">
+        <AdBanner
+          dataAdFormat="auto"
+          dataFullWidthResponsive={true}
+          dataAdSlot="3093177946"
+        />
+      </div>
+
+*/
   return (
     <div className="container">
       <ScrollToTopBtn />
@@ -332,13 +342,7 @@ export default function Home() {
           ></Image>
         </div>
       </header>
-      <div className="text-container position-relative justify-content-center">
-        <AdBanner
-          dataAdFormat="auto"
-          dataFullWidthResponsive={true}
-          dataAdSlot="3093177946"
-        />
-      </div>
+
       <div className="row text-center mt-2 m-3 ">
         <button
           type="button"
