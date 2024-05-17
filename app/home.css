@@ -30,7 +30,7 @@ box-shadow: 1px 2px 5px -2px #292929;
     opacity: 1;
     animation: appear linear;
     animation-timeline: view();
-    animation-range: entry 5% cover 30%;
+    animation-range: entry 0% cover 15%;
 }
 
 .dropdown-item{
